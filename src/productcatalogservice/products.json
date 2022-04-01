@@ -4,10 +4,34 @@
             "id": "OLJCESPC7Z",
             "name": "Sunglasses",
             "description": "Add a modern touch to your outfits with these sleek aviator sunglasses.",
-            "picture": "/static/img/products/sunglasses_003.jpg",
+            "picture": "/static/img/products/sunglasses.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 19,
+                "nanos": 990000000
+            },
+            "categories": ["accessories"]
+        },
+        {
+            "id": "OLJCESPC7Z",
+            "name": "Sunglasses Mark 002",
+            "description": "Add a modern touch to your outfits with these sleek aviator sunglasses.",
+            "picture": "/static/img/products/sunglasses_002.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 29,
+                "nanos": 990000000
+            },
+            "categories": ["accessories"]
+        },
+        {
+            "id": "OLJCESPC7Z",
+            "name": "Sunglasses Mark 003",
+            "description": "Add a modern touch to your outfits with these sleek aviator sunglasses.",
+            "picture": "/static/img/products/sunglasses_003.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 39,
                 "nanos": 990000000
             },
             "categories": ["accessories"]

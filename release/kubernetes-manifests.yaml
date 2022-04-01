@@ -219,7 +219,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: gcr.io/google-samples/microservices-demo/frontend:v0.3.6
+          image: lvitroleruibk/boutique-frontend:latest
           ports:
           - containerPort: 8080
           readinessProbe:
