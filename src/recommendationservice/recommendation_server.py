@@ -64,13 +64,17 @@ def initStackdriverProfiling():
 
 class RecommendationService(demo_pb2_grpc.RecommendationServiceServicer):
     def ListRecommendations(self, request, context):
-        max_responses = 3
+        max_responses = 5
         # fetch list of products from product catalog stub
         cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
         product_ids = [x.id for x in cat_response.products]
         filtered_products = list(set(product_ids)-set(request.product_ids))
+        # sort the list by id
+        filtered_products.sort(key=lambda product: product.id)
+
         num_products = len(filtered_products)
-        num_return = min(max_responses, num_products)
+        num_return = max(max_responses, num_products)
+
         # sample list of indicies to return
         indices = random.sample(range(num_products), num_return)
         # fetch product ids from indices
