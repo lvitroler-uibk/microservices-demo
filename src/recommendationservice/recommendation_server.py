@@ -70,7 +70,6 @@ class RecommendationService(demo_pb2_grpc.RecommendationServiceServicer):
         product_ids = [x.id for x in cat_response.products]
         filtered_products = list(set(product_ids) - set(request.product_ids))
         # sort the list by id
-        #filtered_products.sort()
         filtered_products = sorted(filtered_products)
 
         num_products = len(filtered_products)
@@ -78,7 +77,7 @@ class RecommendationService(demo_pb2_grpc.RecommendationServiceServicer):
 
         # sample list of indicies to return
         indices = random.sample(range(num_products), num_return)
-        #indices = filtered_products[:num_return]
+        indices = filtered_products[:num_return]
         
         # fetch product ids from indices
         prod_list = [filtered_products[i] for i in indices]

@@ -158,7 +158,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: lvitroleruibk/boutique-recommender:v1.5
+        image: lvitroleruibk/boutique-recommender:v1.6
         ports:
         - containerPort: 8080
         readinessProbe:
