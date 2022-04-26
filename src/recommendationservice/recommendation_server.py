@@ -77,7 +77,7 @@ class RecommendationService(demo_pb2_grpc.RecommendationServiceServicer):
 
         # sample list of indicies to return
         indices = random.sample(range(num_products), num_return)
-        indices = filtered_products[:num_return]
+        #indices = filtered_products[:num_return]
         
         # fetch product ids from indices
         prod_list = [filtered_products[i] for i in indices]
