@@ -218,20 +218,20 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: lvitroleruibk/boutique-classifier:v1.0
+        image: lvitroleruibk/boutique-classifier:v1.1
         ports:
-        - containerPort: 8080
+        - containerPort: 9090
         readinessProbe:
           periodSeconds: 5
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: ["/bin/grpc_health_probe", "-addr=:9090"]
         livenessProbe:
           periodSeconds: 5
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: ["/bin/grpc_health_probe", "-addr=:9090"]
         env:
         - name: PORT
-          value: "8080"
+          value: "9090"
         - name: PRODUCT_CATALOG_SERVICE_ADDR
           value: "productcatalogservice:3550"
         - name: DISABLE_TRACING
@@ -258,8 +258,8 @@ spec:
     app: classifyingservice
   ports:
   - name: grpc
-    port: 8080
-    targetPort: 8080
+    port: 9090
+    targetPort: 9090
 ---
 apiVersion: apps/v1
 kind: Deployment
