@@ -373,8 +373,8 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 	log.WithField("order", order.GetOrder().GetOrderId()).Info("order placed")
 
 	order.GetOrder().GetItems()
+	classifyings,_ := fe.getClassifyings(r.Context(), sessionID(r), nil)
 	recommendations, _ := fe.getRecommendations(r.Context(), sessionID(r), nil)
-	classifyings := fe.getClassifyings(r.Context(), sessionID(r), nil)
 
 	totalPaid := *order.GetOrder().GetShippingCost()
 	for _, v := range order.GetOrder().GetItems() {

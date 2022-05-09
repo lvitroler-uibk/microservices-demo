@@ -117,7 +117,7 @@ func (fe *frontendServer) getRecommendations(ctx context.Context, userID string,
 }
 
 func (fe *frontendServer) getClassifyings(ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
-	resp, err := pb.NewClassifyingserviceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
+	resp, err := pb.NewClassifyingServiceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
 		&pb.ListClassifyingsRequest{UserId: userID, ProductIds: productIDs})
 	if err != nil {
 		return nil, err
