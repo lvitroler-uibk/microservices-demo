@@ -375,6 +375,92 @@ func (m *ListRecommendationsResponse) GetProductIds() []string {
 	return nil
 }
 
+type ListClassifyingsRequest struct {
+	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProductIds           []string `protobuf:"bytes,2,rep,name=product_ids,json=productIds,proto3" json:"product_ids,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListClassifyingsRequest) Reset()         { *m = ListClassifyingsRequest{} }
+func (m *ListClassifyingsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListClassifyingsRequest) ProtoMessage()    {}
+func (*ListClassifyingsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ca53982754088a9d, []int{6}
+}
+
+func (m *ListClassifyingsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListClassifyingsRequest.Unmarshal(m, b)
+}
+func (m *ListClassifyingsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListClassifyingsRequest.Marshal(b, m, deterministic)
+}
+func (m *ListClassifyingsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListClassifyingsRequest.Merge(m, src)
+}
+func (m *ListClassifyingsRequest) XXX_Size() int {
+	return xxx_messageInfo_ListClassifyingsRequest.Size(m)
+}
+func (m *ListClassifyingsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListClassifyingsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListClassifyingsRequest proto.InternalMessageInfo
+
+func (m *ListClassifyingsRequest) GetUserId() string {
+	if m != nil {
+		return m.UserId
+	}
+	return ""
+}
+
+func (m *ListClassifyingsRequest) GetProductIds() []string {
+	if m != nil {
+		return m.ProductIds
+	}
+	return nil
+}
+
+type ListClassifyingsResponse struct {
+	ProductIds           []string `protobuf:"bytes,1,rep,name=product_ids,json=productIds,proto3" json:"product_ids,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListClassifyingsResponse) Reset()         { *m = ListClassifyingsResponse{} }
+func (m *ListClassifyingsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListClassifyingsResponse) ProtoMessage()    {}
+func (*ListClassifyingsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ca53982754088a9d, []int{7}
+}
+
+func (m *ListClassifyingsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListClassifyingsResponse.Unmarshal(m, b)
+}
+func (m *ListClassifyingsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListClassifyingsResponse.Marshal(b, m, deterministic)
+}
+func (m *ListClassifyingsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListClassifyingsResponse.Merge(m, src)
+}
+func (m *ListClassifyingsResponse) XXX_Size() int {
+	return xxx_messageInfo_ListClassifyingsResponse.Size(m)
+}
+func (m *ListClassifyingsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListClassifyingsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListClassifyingsResponse proto.InternalMessageInfo
+
+func (m *ListClassifyingsResponse) GetProductIds() []string {
+	if m != nil {
+		return m.ProductIds
+	}
+	return nil
+}
+
 type Product struct {
 	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name        string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -1569,6 +1655,8 @@ func init() {
 	proto.RegisterType((*Empty)(nil), "hipstershop.Empty")
 	proto.RegisterType((*ListRecommendationsRequest)(nil), "hipstershop.ListRecommendationsRequest")
 	proto.RegisterType((*ListRecommendationsResponse)(nil), "hipstershop.ListRecommendationsResponse")
+	proto.RegisterType((*ListClassifyingsRequest)(nil), "hipstershop.ListClassifyingsRequest")
+	proto.RegisterType((*ListClassifyingsResponse)(nil), "hipstershop.ListClassifyingsResponse")
 	proto.RegisterType((*Product)(nil), "hipstershop.Product")
 	proto.RegisterType((*ListProductsResponse)(nil), "hipstershop.ListProductsResponse")
 	proto.RegisterType((*GetProductRequest)(nil), "hipstershop.GetProductRequest")
@@ -1791,6 +1879,70 @@ var _RecommendationService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRecommendations",
 			Handler:    _RecommendationService_ListRecommendations_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "demo.proto",
+}
+
+// ClassifyingServiceClient is the client API for ClassifyingService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type ClassifyingServiceClient interface {
+	ListClassifyings(ctx context.Context, in *ListClassifyingsRequest, opts ...grpc.CallOption) (*ListClassifyingsResponse, error)
+}
+
+type classifyingServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewClassifyingServiceClient(cc *grpc.ClientConn) ClassifyingServiceClient {
+	return &classifyingServiceClient{cc}
+}
+
+func (c *classifyingServiceClient) ListClassifyings(ctx context.Context, in *ListClassifyingsRequest, opts ...grpc.CallOption) (*ListClassifyingsResponse, error) {
+	out := new(ListClassifyingsResponse)
+	err := c.cc.Invoke(ctx, "/hipstershop.ClassifyingService/ListClassifyings", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ClassifyingServiceServer is the server API for ClassifyingService service.
+type ClassifyingServiceServer interface {
+	ListClassifyings(context.Context, *ListClassifyingsRequest) (*ListClassifyingsResponse, error)
+}
+
+func RegisterClassifyingServiceServer(s *grpc.Server, srv ClassifyingServiceServer) {
+	s.RegisterService(&_ClassifyingService_serviceDesc, srv)
+}
+
+func ClassifyingService_ListClassifyings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListClassifyingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClassifyingServiceServer).ListClassifyings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/hipstershop.ClassifyingService/ListClassifyings",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClassifyingServiceServer).ListClassifyings(ctx, req.(*ListClassifyingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var ClassifyingService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "hipstershop.ClassifyingService",
+	HandlerType: (*ClassifyingServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListClassifyings",
+			Handler:    _ClassifyingService_ListClassifyings_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

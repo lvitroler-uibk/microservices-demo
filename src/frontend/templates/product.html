@@ -58,6 +58,9 @@
     {{ if $.recommendations}}
       {{ template "recommendations" $.recommendations }}
     {{ end }}
+    {{ if $.classifyings}}
+      {{ template "classifyings" $.classifyings }}
+    {{ end }}
   </div>
   <div class="ad">
    {{ with $.ad }}{{ template "text_ad" . }}{{ end }}

@@ -182,6 +182,12 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	classifyings, err := fe.getClassifyings(r.Context(), sessionID(r), []string{id})
+	if err != nil {
+		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifying"), http.StatusInternalServerError)
+		return
+	}
+
 	product := struct {
 		Item  *pb.Product
 		Price *pb.Money
@@ -196,6 +202,7 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		"currencies":        currencies,
 		"product":           product,
 		"recommendations":   recommendations,
+		"classifyings":      classifyings,
 		"cart_size":         cartSize(cart),
 		"platform_css":      plat.css,
 		"platform_name":     plat.provider,
@@ -262,6 +269,12 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	classifyings, err := fe.getClassifyings(r.Context(), sessionID(r), cartIDs(cart))
+	if err != nil {
+		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifyings"), http.StatusInternalServerError)
+		return
+	}
+
 	shippingCost, err := fe.getShippingQuote(r.Context(), cart, currentCurrency(r))
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get shipping quote"), http.StatusInternalServerError)
@@ -303,6 +316,7 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 		"user_currency":     currentCurrency(r),
 		"currencies":        currencies,
 		"recommendations":   recommendations,
+		"classifyings":      classifyings,
 		"cart_size":         cartSize(cart),
 		"shipping_cost":     shippingCost,
 		"show_currency":     true,
@@ -360,6 +374,7 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 
 	order.GetOrder().GetItems()
 	recommendations, _ := fe.getRecommendations(r.Context(), sessionID(r), nil)
+	classifyings, _ := fe.getClassifyings(r.Context(), sessionID(r), nil)
 
 	totalPaid := *order.GetOrder().GetShippingCost()
 	for _, v := range order.GetOrder().GetItems() {
@@ -382,6 +397,7 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 		"order":             order.GetOrder(),
 		"total_paid":        &totalPaid,
 		"recommendations":   recommendations,
+		"classifyings":      classifyings,
 		"platform_css":      plat.css,
 		"platform_name":     plat.provider,
 		"is_cymbal_brand":   isCymbalBrand,

@@ -116,6 +116,26 @@ func (fe *frontendServer) getRecommendations(ctx context.Context, userID string,
 	return out, err
 }
 
+func (fe *frontendServer) getClassifyings(ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
+	resp, err := pb.NewClassifyingserviceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
+		&pb.ListClassifyingsRequest{UserId: userID, ProductIds: productIDs})
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*pb.Product, len(resp.GetProductIds()))
+	for i, v := range resp.GetProductIds() {
+		p, err := fe.getProduct(ctx, v)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to get classifying product info (#%s)", v)
+		}
+		out[i] = p
+	}
+	if len(out) > 4 {
+		out = out[:4] // take only first four to fit the UI
+	}
+	return out, err
+}
+
 func (fe *frontendServer) getAd(ctx context.Context, ctxKeys []string) ([]*pb.Ad, error) {
 	ctx, cancel := context.WithTimeout(ctx, time.Millisecond*100)
 	defer cancel()
