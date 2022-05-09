@@ -143,7 +143,7 @@ if __name__ == "__main__":
     except (Exception, DefaultCredentialsError):
         logger.info("Debugger disabled.")
 
-    port = os.environ.get('PORT', "8080")
+    port = os.environ.get('PORT', "9090")
     catalog_addr = os.environ.get('PRODUCT_CATALOG_SERVICE_ADDR', '')
     if catalog_addr == "":
         raise Exception('PRODUCT_CATALOG_SERVICE_ADDR environment variable not set')

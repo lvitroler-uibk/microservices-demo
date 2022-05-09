@@ -31,7 +31,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         port = sys.argv[1]
     else:
-        port = "8080"
+        port = "9090"
 
     try:
         exporter = stackdriver_exporter.StackdriverExporter()
