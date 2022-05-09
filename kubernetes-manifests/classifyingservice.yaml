@@ -31,7 +31,7 @@ spec:
       - name: server
         image: classifyingservice
         ports:
-        - containerPort: 9090
+        - containerPort: 8080
         readinessProbe:
           periodSeconds: 5
           exec:
@@ -42,7 +42,7 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr=:8080"]
         env:
         - name: PORT
-          value: "9090"
+          value: "8080"
         - name: PRODUCT_CATALOG_SERVICE_ADDR
           value: "productcatalogservice:3550"
         - name: DISABLE_TRACING
@@ -69,5 +69,5 @@ spec:
     app: classifyingservice
   ports:
   - name: grpc
-    port: 9090
-    targetPort: 9090
+    port: 8080
+    targetPort: 8080

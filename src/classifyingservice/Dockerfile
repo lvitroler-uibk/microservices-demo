@@ -33,7 +33,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # set listen port
-ENV PORT "9090"
-EXPOSE 9090
+ENV PORT "8080"
+EXPOSE 8080
 
 ENTRYPOINT ["python", "/classifyingservice/classifying_server.py"]
