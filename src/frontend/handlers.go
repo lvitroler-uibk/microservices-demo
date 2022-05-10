@@ -182,6 +182,12 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	log.Println("Test")
+	log.Println(r.Host)
+	log.Println(r.URL.Host)
+	log.Println(r.URL.Hostname())
+	log.Println(r.URL.RequestURI())
+	log.Println("Test Test")
 	classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), []string{id})
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifying"), http.StatusInternalServerError)
@@ -270,10 +276,6 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), cartIDs(cart))
-	log.Println("Test Test Test")
-	log.Println(r.Host)
-	log.Println(r.URL.Path)
-	log.Println(r.URL.RequestURI())
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifyings"), http.StatusInternalServerError)
 		return
