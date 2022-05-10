@@ -182,7 +182,7 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	classifyings, err := fe.getClassifyings(r.Context(), sessionID(r), []string{id})
+	classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), []string{id})
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifying"), http.StatusInternalServerError)
 		return
@@ -269,7 +269,11 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	classifyings, err := fe.getClassifyings(r.Context(), sessionID(r), cartIDs(cart))
+	classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), cartIDs(cart))
+	log.Println("Test Test Test")
+	log.Println(r.Host)
+	log.Println(r.URL.Path)
+	log.Println(r.URL.RequestURI())
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifyings"), http.StatusInternalServerError)
 		return
@@ -373,7 +377,7 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 	log.WithField("order", order.GetOrder().GetOrderId()).Info("order placed")
 
 	order.GetOrder().GetItems()
-	classifyings,_ := fe.getClassifyings(r.Context(), sessionID(r), nil)
+	classifyings, _ := fe.getClassifyings(r, r.Context(), sessionID(r), nil)
 	recommendations, _ := fe.getRecommendations(r.Context(), sessionID(r), nil)
 
 	totalPaid := *order.GetOrder().GetShippingCost()

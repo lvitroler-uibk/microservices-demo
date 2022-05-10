@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	pb "github.com/GoogleCloudPlatform/microservices-demo/src/frontend/genproto"
@@ -116,7 +117,7 @@ func (fe *frontendServer) getRecommendations(ctx context.Context, userID string,
 	return out, err
 }
 
-func (fe *frontendServer) getClassifyings(ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
+func (fe *frontendServer) getClassifyings(r *http.Request, ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
 	resp, err := pb.NewClassifyingServiceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
 		&pb.ListClassifyingsRequest{UserId: userID, ProductIds: productIDs})
 	if err != nil {

@@ -65,10 +65,12 @@ def initStackdriverProfiling():
 class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
     def ListClassifyings(self, request, context):
         max_responses = 5
+
         # fetch list of products from product catalog stub
         cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
         product_ids = [x.id for x in cat_response.products]
         filtered_products = list(set(product_ids) - set(request.product_ids))
+
         # sort the list by id
         filtered_products = sorted(filtered_products)
 
@@ -83,9 +85,11 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         prod_list = [filtered_products[i] for i in indices]
         prod_list = filtered_products
         logger.info("[Recv ListClassifyings] product_ids={}".format(prod_list))
+        
         # build and return response
         response = demo_pb2.ListClassifyingsResponse()
         response.product_ids.extend(prod_list)
+
         return response
 
     def Check(self, request, context):
