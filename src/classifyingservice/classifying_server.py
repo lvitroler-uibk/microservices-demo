@@ -89,7 +89,7 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
 
         # build and return response
         response = demo_pb2.ListClassifyingsResponse()
-        response.product_id.extend(prod_id)
+        response.product_id := (prod_id)
 
         return response
 
