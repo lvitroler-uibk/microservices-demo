@@ -120,9 +120,11 @@ func (fe *frontendServer) getRecommendations(ctx context.Context, userID string,
 func (fe *frontendServer) getClassifyings(r *http.Request, ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
 	resp, err := pb.NewClassifyingServiceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
 		&pb.ListClassifyingsRequest{UserId: userID, ProductIds: productIDs})
+
 	if err != nil {
 		return nil, err
 	}
+
 	out := make([]*pb.Product, len(resp.GetProductIds()))
 	for i, v := range resp.GetProductIds() {
 		p, err := fe.getProduct(ctx, v)

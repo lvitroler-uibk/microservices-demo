@@ -65,7 +65,7 @@ def initStackdriverProfiling():
 class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
     def ListClassifyings(self, request, context):
         #max_responses = 5
-        prod_list = request.product_ids
+        prod_id = request.product_id
 
         # fetch list of products from product catalog stub
         #cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
@@ -85,11 +85,11 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         # fetch product ids from indices
         #prod_list = [filtered_products[i] for i in indices]
         #prod_list = filtered_products
-        logger.info("[Recv ListClassifyings] product_ids={}".format(prod_list))
+        logger.info("[Recv ListClassifyings] product_ids={}".format(prod_id))
 
         # build and return response
         response = demo_pb2.ListClassifyingsResponse()
-        response.product_ids.extend(prod_list)
+        response.product_id.extend(prod_id)
 
         return response
 
