@@ -117,26 +117,35 @@ func (fe *frontendServer) getRecommendations(ctx context.Context, userID string,
 	return out, err
 }
 
-func (fe *frontendServer) getClassifyings(r *http.Request, ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
+func (fe *frontendServer) getClassifyings(r *http.Request, ctx context.Context, userID string, productID string) (*pb.Product, error) {
 	resp, err := pb.NewClassifyingServiceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
-		&pb.ListClassifyingsRequest{UserId: userID, ProductIds: productIDs})
+		&pb.ListClassifyingsRequest{UserId: userID, ProductId: productID})
 
 	if err != nil {
 		return nil, err
 	}
 
-	out := make([]*pb.Product, len(resp.GetProductIds()))
-	for i, v := range resp.GetProductIds() {
-		p, err := fe.getProduct(ctx, v)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to get classifying product info (#%s)", v)
+	//out := make([]*pb.Product, len(resp.GetProductId()))
+	p, err := fe.getProduct(ctx, resp.GetProductId())
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to get classifying product info (#%s)", resp.GetProductId())
+	}
+
+	/*
+		for i, v := range resp.GetProductIds() {
+			p, err := fe.getProduct(ctx, v)
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to get classifying product info (#%s)", v)
+			}
+			out[i] = p
 		}
-		out[i] = p
-	}
-	if len(out) > 4 {
-		out = out[:4] // take only first four to fit the UI
-	}
-	return out, err
+
+		if len(out) > 4 {
+			out = out[:4] // take only first four to fit the UI
+		}
+	*/
+
+	return p, err
 }
 
 func (fe *frontendServer) getAd(ctx context.Context, ctxKeys []string) ([]*pb.Ad, error) {

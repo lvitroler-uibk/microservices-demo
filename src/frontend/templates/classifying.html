@@ -19,22 +19,20 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-10 offset-xl-1">
-          <h2>You May Also Like</h2>
+          <h2>Classified</h2>
           <div class="row">
-            {{range . }}
             <div class="col-md-3">
               <div>
-                <a href="/product/{{.Id}}">
-                  <img alt="" src="{{.Picture}}">
+                <a href="/product/{{$.classifying.Item.Id}}">
+                  <img alt="" src="{{$.classifying.Item.Picture}}">
                 </a>
                 <div>
                   <h5>
-                    {{ .Name }}
+                    {{$.classifying.Item.Name}}
                   </h5>
                 </div>
               </div>
             </div>
-            {{ end }}
           </div>
         </div>
       </div>

@@ -189,7 +189,7 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 	log.Println(r.URL.RequestURI())
 	log.Println("Test Test")
 	//34.71.44.110
-	classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), []string{id})
+	classifying, err := fe.getClassifyings(r, r.Context(), sessionID(r), id)
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifying"), http.StatusInternalServerError)
 		return
@@ -209,7 +209,7 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		"currencies":        currencies,
 		"product":           product,
 		"recommendations":   recommendations,
-		"classifyings":      classifyings,
+		"classifying":       classifying,
 		"cart_size":         cartSize(cart),
 		"platform_css":      plat.css,
 		"platform_name":     plat.provider,
@@ -276,11 +276,13 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), cartIDs(cart))
-	if err != nil {
-		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifyings"), http.StatusInternalServerError)
-		return
-	}
+	/*
+		classifyings, err := fe.getClassifyings(r, r.Context(), sessionID(r), cartIDs(cart))
+		if err != nil {
+			renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifyings"), http.StatusInternalServerError)
+			return
+		}
+	*/
 
 	shippingCost, err := fe.getShippingQuote(r.Context(), cart, currentCurrency(r))
 	if err != nil {
@@ -318,12 +320,12 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 	year := time.Now().Year()
 
 	if err := templates.ExecuteTemplate(w, "cart", map[string]interface{}{
-		"session_id":        sessionID(r),
-		"request_id":        r.Context().Value(ctxKeyRequestID{}),
-		"user_currency":     currentCurrency(r),
-		"currencies":        currencies,
-		"recommendations":   recommendations,
-		"classifyings":      classifyings,
+		"session_id":      sessionID(r),
+		"request_id":      r.Context().Value(ctxKeyRequestID{}),
+		"user_currency":   currentCurrency(r),
+		"currencies":      currencies,
+		"recommendations": recommendations,
+		//"classifyings":      classifyings,
 		"cart_size":         cartSize(cart),
 		"shipping_cost":     shippingCost,
 		"show_currency":     true,
@@ -380,7 +382,7 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 	log.WithField("order", order.GetOrder().GetOrderId()).Info("order placed")
 
 	order.GetOrder().GetItems()
-	classifyings, _ := fe.getClassifyings(r, r.Context(), sessionID(r), nil)
+	//classifyings, _ := fe.getClassifyings(r, r.Context(), sessionID(r), nil)
 	recommendations, _ := fe.getRecommendations(r.Context(), sessionID(r), nil)
 
 	totalPaid := *order.GetOrder().GetShippingCost()
@@ -396,15 +398,15 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	if err := templates.ExecuteTemplate(w, "order", map[string]interface{}{
-		"session_id":        sessionID(r),
-		"request_id":        r.Context().Value(ctxKeyRequestID{}),
-		"user_currency":     currentCurrency(r),
-		"show_currency":     false,
-		"currencies":        currencies,
-		"order":             order.GetOrder(),
-		"total_paid":        &totalPaid,
-		"recommendations":   recommendations,
-		"classifyings":      classifyings,
+		"session_id":      sessionID(r),
+		"request_id":      r.Context().Value(ctxKeyRequestID{}),
+		"user_currency":   currentCurrency(r),
+		"show_currency":   false,
+		"currencies":      currencies,
+		"order":           order.GetOrder(),
+		"total_paid":      &totalPaid,
+		"recommendations": recommendations,
+		//"classifyings":      classifyings,
 		"platform_css":      plat.css,
 		"platform_name":     plat.provider,
 		"is_cymbal_brand":   isCymbalBrand,
