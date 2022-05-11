@@ -117,19 +117,22 @@ func (fe *frontendServer) getRecommendations(ctx context.Context, userID string,
 	return out, err
 }
 
-func (fe *frontendServer) getClassifyings(r *http.Request, ctx context.Context, userID string, productID string) (*pb.Product, error) {
+func (fe *frontendServer) getClassifyings(r *http.Request, ctx context.Context, userID string, productID string) (string, error) {
 	resp, err := pb.NewClassifyingServiceClient(fe.classifyingSvcConn).ListClassifyings(ctx,
 		&pb.ListClassifyingsRequest{UserId: userID, ProductId: productID})
 
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	//out := make([]*pb.Product, len(resp.GetProductId()))
-	p, err := fe.getProduct(ctx, resp.GetProductId())
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to get classifying product info (#%s)", resp.GetProductId())
-	}
+	/*
+		p, err := fe.getProduct(ctx, resp.GetProductId())
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to get classifying product info (#%s)", resp.GetProductId())
+		}
+	*/
+	p := resp.GetProductId()
 
 	/*
 		for i, v := range resp.GetProductIds() {
