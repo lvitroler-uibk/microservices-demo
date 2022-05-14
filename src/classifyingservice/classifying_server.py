@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function, division
 import os
 import time
 import traceback
@@ -32,7 +33,6 @@ import demo_pb2
 import demo_pb2_grpc
 from grpc_health.v1 import health_pb2
 from grpc_health.v1 import health_pb2_grpc
-from __future__ import print_function, division
 from PIL import Image
 from torchvision import models, transforms
 from io import BytesIO
