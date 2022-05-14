@@ -165,7 +165,7 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         img_t = img_t.to(device)
         outputs = model(img_t)
         _, preds = torch.max(outputs, 1)
-        logger.info('predicted: {}'.format(class_names[int(preds.cpu().numpy())]))
+        logger.info("predicted: {}".format(class_names[int(preds.cpu().numpy())]))
 
         # build and return response
         response = demo_pb2.ListClassifyingsResponse()
