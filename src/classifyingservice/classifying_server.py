@@ -136,29 +136,17 @@ def initStackdriverProfiling():
 
 class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
     def ListClassifyings(self, request, context):
-        #max_responses = 5
         prod_id = request.product_id
+        host = request.host
 
         # fetch list of products from product catalog stub
         #cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
         #product_ids = [x.id for x in cat_response.products]
         #filtered_products = list(set(product_ids) - set(request.product_ids))
+        logger.info("[Recv ListClassifyings] product_id={}".format(prod_id))
+        logger.info("[Recv ListClassifyings] host={}".format(host))
 
-        # sort the list by id
-        #filtered_products = sorted(filtered_products)
-
-        #num_products = len(filtered_products)
-        #num_return = min(max_responses, num_products)
-
-        # sample list of indicies to return
-        #indices = random.sample(range(num_products), num_return)
-        #indices = filtered_products[:num_return]
-        
-        # fetch product ids from indices
-        #prod_list = [filtered_products[i] for i in indices]
-        #prod_list = filtered_products
-        logger.info("[Recv ListClassifyings] product_ids={}".format(prod_id))
-
+        # https://www.kaggle.com/code/pavelgot/items-classification-pytorch/notebook
         response = requests.get("https://static.pullandbear.net/2/photos/2022/V/0/1/p/4246/392/513/4246392513_1_1_3.jpg?t=1646392305779")
         img = Image.open(BytesIO(response.content))
         img_t = data_transforms['val'](img).unsqueeze(0)
@@ -170,7 +158,7 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
 
         # build and return response
         response = demo_pb2.ListClassifyingsResponse()
-        response.product_id = predicted
+        response.prediction = predicted
 
         return response
 

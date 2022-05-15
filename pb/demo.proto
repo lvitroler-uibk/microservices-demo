@@ -73,10 +73,11 @@ service ClassifyingService {
 message ListClassifyingsRequest {
     string user_id = 1;
     string product_id = 2;
+    string host = 3;
 }
 
 message ListClassifyingsResponse {
-    string product_id = 1;
+    string prediction = 1;
 }
 
 // ---------------Product Catalog----------------

@@ -218,7 +218,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: lvitroleruibk/boutique-classifier:v1.14
+        image: lvitroleruibk/boutique-classifier:v1.15
         ports:
         - containerPort: 9090
         readinessProbe:
@@ -279,7 +279,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: lvitroleruibk/boutique-frontend:v1.9
+          image: lvitroleruibk/boutique-frontend:v1.10
           ports:
           - containerPort: 8080
           readinessProbe:

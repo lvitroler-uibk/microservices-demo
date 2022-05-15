@@ -182,14 +182,8 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	log.Println("Test")
-	log.Println(r.Host)
-	log.Println(r.RemoteAddr)
-	log.Println(r.RequestURI)
-	log.Println(r.URL.RequestURI())
-	log.Println("Test Test")
 	//34.71.44.110
-	classifying, err := fe.getClassifyings(r, r.Context(), sessionID(r), id)
+	classifying, err := fe.getClassifyings(r, r.Context(), sessionID(r), id, r.Host)
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifying"), http.StatusInternalServerError)
 		return
