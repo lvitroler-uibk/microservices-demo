@@ -16,6 +16,8 @@
 
 import logging
 import sys
+import datetime
+
 from pythonjsonlogger import jsonlogger
 
 # TODO(yoshifumi) this class is duplicated since other Python services are
