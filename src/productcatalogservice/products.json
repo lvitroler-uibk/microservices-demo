@@ -16,7 +16,7 @@
             "id": "OLJCESP102",
             "name": "Sunglasses Mark 002",
             "description": "Add a modern touch to your outfits with these sleek aviator sunglasses.",
-            "picture": "/static/img/products/sunglasses_002.png",
+            "picture": "/static/img/products/sunglasses_02.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 29,
@@ -38,9 +38,9 @@
         },
         {
             "id": "66VCHSJNUP",
-            "name": "Tank Top",
+            "name": "Top",
             "description": "Perfectly cropped cotton tank, with a scooped neckline.",
-            "picture": "/static/img/products/tank-top.jpg",
+            "picture": "/static/img/products/top.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 18,
@@ -62,9 +62,9 @@
         },
         {
             "id": "L9ECAV7KIM",
-            "name": "Loafers",
+            "name": "Shoes",
             "description": "A neat addition to your summer wardrobe.",
-            "picture": "/static/img/products/loafers.jpg",
+            "picture": "/static/img/products/shoes.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 89,
@@ -74,9 +74,9 @@
         },
         {
             "id": "2ZYFJ3GM2N",
-            "name": "Hairdryer",
-            "description": "This lightweight hairdryer has 3 heat and speed settings. It's perfect for travel.",
-            "picture": "/static/img/products/hairdryer.jpg",
+            "name": "Bra",
+            "description": "Super comfortable to wear and fashionable. It's perfect for travel.",
+            "picture": "/static/img/products/bra.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 24,
@@ -98,9 +98,9 @@
         },
         {
             "id": "LS4PSXUNUM",
-            "name": "Salt & Pepper Shakers",
-            "description": "Add some flavor to your kitchen.",
-            "picture": "/static/img/products/salt-and-pepper-shakers.jpg",
+            "name": "Flip Flop",
+            "description": "Add some flavor to your beach.",
+            "picture": "/static/img/products/flip.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 18,
@@ -110,9 +110,9 @@
         },
         {
             "id": "9SIQT8TOJO",
-            "name": "Bamboo Glass Jar",
-            "description": "This bamboo glass jar can hold 57 oz (1.7 l) and is perfect for any kitchen.",
-            "picture": "/static/img/products/bamboo-glass-jar.jpg",
+            "name": "Jeans",
+            "description": "This jeans make you slim and is perfect for any kitchen.",
+            "picture": "/static/img/products/jeans.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 5,
@@ -122,9 +122,9 @@
         },
         {
             "id": "6E92ZMYYFZ",
-            "name": "Mug",
-            "description": "A simple mug with a mustard interior.",
-            "picture": "/static/img/products/mug.jpg",
+            "name": "Dress",
+            "description": "A simple dress with a nice color.",
+            "picture": "/static/img/products/dress.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 8,
