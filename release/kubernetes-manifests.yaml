@@ -279,7 +279,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: lvitroleruibk/boutique-frontend:v1.12
+          image: lvitroleruibk/boutique-frontend:v1.13
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -436,7 +436,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: lvitroleruibk/boutique-products:v1.2
+        image: lvitroleruibk/boutique-products:v1.3
         ports:
         - containerPort: 3550
         env:
