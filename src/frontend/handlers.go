@@ -183,16 +183,7 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	//34.71.44.110
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		log.Println(err.Error())
-	}
-	defer conn.Close()
-
-	localAddr := conn.LocalAddr().(*net.UDPAddr).IP
-	log.Println(localAddr)
-
-	classifying, err := fe.getClassifyings(r, r.Context(), sessionID(r), id, localAddr)
+	classifying, err := fe.getClassifyings(r, r.Context(), sessionID(r), id, r.Host)
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to get product classifying"), http.StatusInternalServerError)
 		return
