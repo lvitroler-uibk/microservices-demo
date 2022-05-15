@@ -140,11 +140,12 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         host = request.host
 
         # fetch list of products from product catalog stub
-        #cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
+        product = product_catalog_stub.GetProduct(prod_id)
         #product_ids = [x.id for x in cat_response.products]
         #filtered_products = list(set(product_ids) - set(request.product_ids))
         logger.info("[Recv ListClassifyings] product_id={}".format(prod_id))
         logger.info("[Recv ListClassifyings] host={}".format(host))
+        logger.info("[Recv ListClassifyings] picture={}".format(product.picture))
 
         # https://www.kaggle.com/code/pavelgot/items-classification-pytorch/notebook
         response = requests.get("https://static.pullandbear.net/2/photos/2022/V/0/1/p/4246/392/513/4246392513_1_1_3.jpg?t=1646392305779")
