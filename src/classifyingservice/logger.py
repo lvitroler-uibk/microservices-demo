@@ -21,19 +21,21 @@ from pythonjsonlogger import jsonlogger
 # TODO(yoshifumi) this class is duplicated since other Python services are
 # not sharing the modules for logging.
 class CustomJsonFormatter(jsonlogger.JsonFormatter):
-  def add_fields(self, log_record, record, message_dict):
-    super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
-    if not log_record.get('timestamp'):
-      log_record['timestamp'] = record.created
-    if log_record.get('severity'):
-      log_record['severity'] = log_record['severity'].upper()
-    else:
-      log_record['severity'] = record.levelname
+    def add_fields(self, log_record, record, message_dict):
+        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
+        if not log_record.get('timestamp'):
+            # this doesn't use record.created, so it is slightly off
+            now = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+            log_record['timestamp'] = now
+        if log_record.get('level'):
+            log_record['level'] = log_record['level'].upper()
+        else:
+            log_record['level'] = record.levelname
 
 def getJSONLogger(name):
   logger = logging.getLogger(name)
   handler = logging.StreamHandler(sys.stdout)
-  formatter = CustomJsonFormatter('(timestamp) (severity) (name) (message)')
+  formatter = CustomJsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
   handler.setFormatter(formatter)
   logger.addHandler(handler)
   logger.setLevel(logging.INFO)
