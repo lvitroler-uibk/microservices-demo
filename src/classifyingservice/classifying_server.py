@@ -41,6 +41,7 @@ from io import BytesIO
 import torch
 import torch.nn as nn
 import requests
+import socket
 
 from logger import getJSONLogger
 logger = getJSONLogger('classifyingservice-server')
@@ -85,6 +86,10 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         logger.info("[Recv ListClassifyings] product_id={}".format(prod_id))
         logger.info("[Recv ListClassifyings] host={}".format(host))
         logger.info("[Recv ListClassifyings] picture={}".format(product.picture))
+
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        logger.info("[Recv ListClassifyings] local={}".format(local_ip))
 
         # https://www.kaggle.com/code/pavelgot/items-classification-pytorch/notebook
         response = requests.get("https://static.pullandbear.net/2/photos/2022/V/0/1/p/4246/392/513/4246392513_1_1_3.jpg?t=1646392305779")
