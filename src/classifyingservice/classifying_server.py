@@ -92,7 +92,8 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         logger.info("[Recv ListClassifyings] local={}".format(local_ip))
 
         # https://www.kaggle.com/code/pavelgot/items-classification-pytorch/notebook
-        response = requests.get("https://static.pullandbear.net/2/photos/2022/V/0/1/p/4246/392/513/4246392513_1_1_3.jpg?t=1646392305779")
+        #response = requests.get("https://static.pullandbear.net/2/photos/2022/V/0/1/p/4246/392/513/4246392513_1_1_3.jpg?t=1646392305779")
+        response = requests.get(host + product.picture)
         img = Image.open(BytesIO(response.content))
         img_t = data_transforms['val'](img).unsqueeze(0)
         img_t = img_t.to(device)
