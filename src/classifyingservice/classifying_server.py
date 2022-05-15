@@ -33,6 +33,7 @@ import demo_pb2
 import demo_pb2_grpc
 from grpc_health.v1 import health_pb2
 from grpc_health.v1 import health_pb2_grpc
+
 from PIL import Image
 from torchvision import models, transforms
 from io import BytesIO
@@ -43,71 +44,6 @@ import requests
 
 from logger import getJSONLogger
 logger = getJSONLogger('classifyingservice-server')
-
-# start classifier code
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-class_names = [
-    'Backpacks', 
-    'Belts', 
-    'Bra', 
-    'Briefs', 
-    'Caps', 
-    'Casual Shoes', 
-    'Clutches', 
-    'Deodorant', 
-    'Dresses', 
-    'Earrings', 
-    'Flats', 
-    'Flip Flops', 
-    'Formal Shoes', 
-    'Handbags', 
-    'Heels', 
-    'Jackets', 
-    'Jeans', 
-    'Kurtas', 
-    'Lipstick', 
-    'Nail Polish', 
-    'Perfume and Body Mist', 
-    'Sandals', 
-    'Sarees', 
-    'Shirts', 
-    'Shorts', 
-    'Socks', 
-    'Sports Shoes', 
-    'Sunglasses', 
-    'Sweaters', 
-    'Sweatshirts', 
-    'Ties', 
-    'Tops', 
-    'Track Pants', 
-    'Trousers', 
-    'Tshirts', 
-    'Wallets', 
-    'Watches'
-    ]
-model_ft = models.resnet18(pretrained=True)
-num_ftrs = model_ft.fc.in_features
-
-#Changing the number of outputs in the last layer to the number of different item types
-model_ft.fc = nn.Linear(num_ftrs, len(class_names))
-
-model_ft = model_ft.to(device)
-model = model_ft
-model.load_state_dict(torch.load('model_fine_tuned.pt', device))
-model.eval()
-
-# Data augmentation and normalization for training
-# Just normalization for validation
-data_transforms = {
-    'val': transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ]),
-}
-torch.no_grad()
-# end classifier code
 
 def initStackdriverProfiling():
   project_id = None
@@ -140,12 +76,12 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         host = request.host
 
         # fetch list of products from product catalog stub
-        product = product_catalog_stub.GetProduct(prod_id)
+        #product = product_catalog_stub.GetProduct(prod_id)
         #product_ids = [x.id for x in cat_response.products]
         #filtered_products = list(set(product_ids) - set(request.product_ids))
         logger.info("[Recv ListClassifyings] product_id={}".format(prod_id))
         logger.info("[Recv ListClassifyings] host={}".format(host))
-        logger.info("[Recv ListClassifyings] picture={}".format(product.picture))
+        #logger.info("[Recv ListClassifyings] picture={}".format(product.picture))
 
         # https://www.kaggle.com/code/pavelgot/items-classification-pytorch/notebook
         response = requests.get("https://static.pullandbear.net/2/photos/2022/V/0/1/p/4246/392/513/4246392513_1_1_3.jpg?t=1646392305779")
@@ -234,6 +170,71 @@ if __name__ == "__main__":
     service = ClassifyingService()
     demo_pb2_grpc.add_ClassifyingServiceServicer_to_server(service, server)
     health_pb2_grpc.add_HealthServicer_to_server(service, server)
+
+    # start classifier code
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    class_names = [
+        'Backpacks', 
+        'Belts', 
+        'Bra', 
+        'Briefs', 
+        'Caps', 
+        'Casual Shoes', 
+        'Clutches', 
+        'Deodorant', 
+        'Dresses', 
+        'Earrings', 
+        'Flats', 
+        'Flip Flops', 
+        'Formal Shoes', 
+        'Handbags', 
+        'Heels', 
+        'Jackets', 
+        'Jeans', 
+        'Kurtas', 
+        'Lipstick', 
+        'Nail Polish', 
+        'Perfume and Body Mist', 
+        'Sandals', 
+        'Sarees', 
+        'Shirts', 
+        'Shorts', 
+        'Socks', 
+        'Sports Shoes', 
+        'Sunglasses', 
+        'Sweaters', 
+        'Sweatshirts', 
+        'Ties', 
+        'Tops', 
+        'Track Pants', 
+        'Trousers', 
+        'Tshirts', 
+        'Wallets', 
+        'Watches'
+        ]
+    model_ft = models.resnet18(pretrained=True)
+    num_ftrs = model_ft.fc.in_features
+
+    #Changing the number of outputs in the last layer to the number of different item types
+    model_ft.fc = nn.Linear(num_ftrs, len(class_names))
+
+    model_ft = model_ft.to(device)
+    model = model_ft
+    model.load_state_dict(torch.load('model_fine_tuned.pt', device))
+    model.eval()
+
+    # Data augmentation and normalization for training
+    # Just normalization for validation
+    data_transforms = {
+        'val': transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
+    torch.no_grad()
+    # end classifier code
 
     # start server
     logger.info("listening on port: " + port)
