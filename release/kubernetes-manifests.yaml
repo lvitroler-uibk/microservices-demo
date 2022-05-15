@@ -218,7 +218,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: lvitroleruibk/boutique-classifier:v1.18
+        image: lvitroleruibk/boutique-classifier:v1.19
         ports:
         - containerPort: 9090
         readinessProbe:

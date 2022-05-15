@@ -1,4 +1,4 @@
 #! /bin/sh
 
-docker build -t lvitroleruibk/boutique-classifier:v1.18 .
-docker push lvitroleruibk/boutique-classifier:v1.18
+docker build -t lvitroleruibk/boutique-classifier:v1.19 .
+docker push lvitroleruibk/boutique-classifier:v1.19
