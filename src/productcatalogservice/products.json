@@ -16,7 +16,7 @@
             "id": "OLJCESP102",
             "name": "Sunglasses Mark 002",
             "description": "Add a modern touch to your outfits with these sleek aviator sunglasses.",
-            "picture": "/static/img/products/sunglasses_02.jpg",
+            "picture": "/static/img/products/sunglasses02.jpg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 29,
@@ -100,7 +100,7 @@
             "id": "LS4PSXUNUM",
             "name": "Flip Flop",
             "description": "Add some flavor to your beach.",
-            "picture": "/static/img/products/flip.jpg",
+            "picture": "/static/img/products/flip.jpeg",
             "priceUsd": {
                 "currencyCode": "USD",
                 "units": 18,
