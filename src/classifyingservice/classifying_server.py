@@ -76,7 +76,7 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         host = request.host
 
         # fetch list of products from product catalog stub
-        request = demo_pb2.GetProductRequest
+        request = demo_pb2.GetProductRequest()
         request.id = prod_id
 
         product = product_catalog_stub.GetProduct(request)
