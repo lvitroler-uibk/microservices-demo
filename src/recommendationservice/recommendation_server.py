@@ -34,8 +34,68 @@ import demo_pb2_grpc
 from grpc_health.v1 import health_pb2
 from grpc_health.v1 import health_pb2_grpc
 
+import pandas as pd
+import json
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 from logger import getJSONLogger
 logger = getJSONLogger('recommendationservice-server')
+
+# Start Machine learning methods
+def clean_data(x):
+    if isinstance(x, list):
+        return [str.lower(i.replace(" ", "")) for i in x]
+    else:
+        #Check if director exists. If not, return empty string
+        if isinstance(x, str):
+            return str.lower(x.replace(" ", ""))
+        else:
+            return ''
+
+def create_soup(x):
+    return ' '.join(x[const])
+
+def get_recommendations(title, cosine_sim):
+    # Get the index of the movie that matches the title
+    idx = indices[title]
+
+    # Get the pairwsie similarity scores of all movies with that movie
+    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    # Sort the movies based on the similarity scores
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    #print(sim_scores)
+
+    # Get the scores of the 4 most similar movies
+    sim_scores = sim_scores[1:5]
+    # Get the movie indices
+    movie_indices = [i[0] for i in sim_scores if i[1] > 0]
+
+    # Return the top 4 most similar movies
+    return metadata['id'].iloc[movie_indices]
+# End Machine learning methods
+
+# Content-Based Recommender
+# https://www.datacamp.com/tutorial/recommender-systems-python
+const = 'categories'
+
+f = open ('products.json', "r")
+data = json.loads(f.read())
+f.close()
+
+data_new = data['products']
+metadata = pd.json_normalize(data_new)
+
+metadata[const] = metadata[const].apply(clean_data)
+metadata['soup'] = metadata.apply(create_soup, axis=1)
+
+count = CountVectorizer(stop_words='english')
+count_matrix = count.fit_transform(metadata['soup'])
+cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
+metadata = metadata.reset_index()
+indices = pd.Series(metadata.index, index=metadata['id'])
+
 
 def initStackdriverProfiling():
   project_id = None
@@ -64,25 +124,30 @@ def initStackdriverProfiling():
 
 class RecommendationService(demo_pb2_grpc.RecommendationServiceServicer):
     def ListRecommendations(self, request, context):
-        max_responses = 5
-        # fetch list of products from product catalog stub
-        cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
-        product_ids = [x.id for x in cat_response.products]
-        filtered_products = list(set(product_ids) - set(request.product_ids))
-        # sort the list by id
-        filtered_products = sorted(filtered_products)
+        productIds = request.product_ids
+        productId = productIds[:1]
 
-        num_products = len(filtered_products)
-        num_return = min(max_responses, num_products)
+        # fetch list of products from product catalog stub
+        #cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
+        #product_ids = [x.id for x in cat_response.products]
+        #filtered_products = list(set(product_ids) - set(request.product_ids))
+        # sort the list by id
+        #filtered_products = sorted(filtered_products)
+
+        #num_products = len(filtered_products)
+        #num_return = min(max_responses, num_products)
 
         # sample list of indicies to return
-        indices = random.sample(range(num_products), num_return)
+        #indices = random.sample(range(num_products), num_return)
         #indices = filtered_products[:num_return]
         
         # fetch product ids from indices
-        prod_list = [filtered_products[i] for i in indices]
-        prod_list = filtered_products
+        #prod_list = [filtered_products[i] for i in indices]
+        result = get_recommendations(productId, cosine_sim2)
+        prod_list = result.values
+
         logger.info("[Recv ListRecommendations] product_ids={}".format(prod_list))
+        
         # build and return response
         response = demo_pb2.ListRecommendationsResponse()
         response.product_ids.extend(prod_list)

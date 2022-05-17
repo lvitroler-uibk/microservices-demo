@@ -12,3 +12,5 @@ urllib3==1.26.9
 rsa==4.8
 pyyaml==6.0
 protobuf==3.20.0 # transitive dependency, move when google-api is bumped safely
+pandas==1.4.2
+scikit-learn==1.1.0
