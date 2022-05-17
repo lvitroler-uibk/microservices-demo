@@ -125,7 +125,9 @@ def initStackdriverProfiling():
 class RecommendationService(demo_pb2_grpc.RecommendationServiceServicer):
     def ListRecommendations(self, request, context):
         productIds = request.product_ids
-        productId = productIds[:1]
+        logger.info("[Recv ListClassifyings] product_id={}".format(productIds))
+        
+        productId = productIds[0]
 
         # fetch list of products from product catalog stub
         #cat_response = product_catalog_stub.ListProducts(demo_pb2.Empty())
