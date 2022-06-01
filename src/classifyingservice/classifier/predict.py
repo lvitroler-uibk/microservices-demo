@@ -58,7 +58,7 @@ data_transforms = {
 }
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-model = None
+#model = None
 
 class Classifier():
     def Setup(self):
