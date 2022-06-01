@@ -86,6 +86,7 @@ service ProductCatalogService {
     rpc ListProducts(Empty) returns (ListProductsResponse) {}
     rpc GetProduct(GetProductRequest) returns (Product) {}
     rpc SearchProducts(SearchProductsRequest) returns (SearchProductsResponse) {}
+    rpc GetProductsJson(Empty) returns (ProductsJsonResponse) {}
 }
 
 message Product {
@@ -114,6 +115,10 @@ message SearchProductsRequest {
 
 message SearchProductsResponse {
     repeated Product results = 1;
+}
+
+message ProductsJsonResponse {
+    string json = 1;
 }
 
 // ---------------Shipping Service----------

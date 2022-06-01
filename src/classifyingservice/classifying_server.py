@@ -81,8 +81,7 @@ class ClassifyingService(demo_pb2_grpc.ClassifyingServiceServicer):
         request.id = prod_id
 
         product = product_catalog_stub.GetProduct(request)
-        #product_ids = [x.id for x in cat_response.products]
-        #filtered_products = list(set(product_ids) - set(request.product_ids))
+
         logger.info("[Recv ListClassifyings] product_id={}".format(prod_id))
         logger.info("[Recv ListClassifyings] host={}".format(host))
         logger.info("[Recv ListClassifyings] picture={}".format(product.picture))
