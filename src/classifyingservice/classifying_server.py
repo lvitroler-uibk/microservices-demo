@@ -163,7 +163,6 @@ if __name__ == "__main__":
 
     # setup Classifier
     classifier = Classifier()
-    classifier.Setup()
 
     # start server
     logger.info("listening on port: " + port)

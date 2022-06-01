@@ -58,23 +58,20 @@ data_transforms = {
 }
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-#model = None
+model_ft = models.resnet18(pretrained=True)
+num_ftrs = model_ft.fc.in_features
+
+#Changing the number of outputs in the last layer to the number of different item types
+model_ft.fc = nn.Linear(num_ftrs, len(class_names))
+
+model_ft = model_ft.to(device)
+model = model_ft
+model.load_state_dict(torch.load('model_fine_tuned.pt', device))
+model.eval()
+
+torch.no_grad()
 
 class Classifier():
-    def Setup(self):
-        model_ft = models.resnet18(pretrained=True)
-        num_ftrs = model_ft.fc.in_features
-
-        #Changing the number of outputs in the last layer to the number of different item types
-        model_ft.fc = nn.Linear(num_ftrs, len(class_names))
-
-        model_ft = model_ft.to(device)
-        model = model_ft
-        model.load_state_dict(torch.load('model_fine_tuned.pt', device))
-        model.eval()
-
-        torch.no_grad()
-    
     def Predict(self, host, pictureName):
         response = requests.get("http://" + host + pictureName)
         img = Image.open(BytesIO(response.content))
