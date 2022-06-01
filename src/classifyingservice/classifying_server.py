@@ -19,7 +19,7 @@ import os
 import time
 import traceback
 from concurrent import futures
-from classifyingservice.classifier.predict import Classifier
+from classifier.predict import Classifier
 
 import googleclouddebugger
 import googlecloudprofiler
