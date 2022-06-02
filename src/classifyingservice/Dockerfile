@@ -14,7 +14,7 @@
 
 FROM python:3.9-slim
 RUN apt-get update -qqy && \
-	apt-get -qqy install wget g++ && \
+	apt-get -qqy install wget g++ unzip && \
 	rm -rf /var/lib/apt/lists/*
 # show python logs as they occur
 ENV PYTHONUNBUFFERED=0
@@ -36,4 +36,5 @@ COPY . .
 ENV PORT "9090"
 EXPOSE 9090
 
-ENTRYPOINT ["python", "/classifyingservice/classifying_server.py"]
+ENTRYPOINT ["/script.sh"]
+#ENTRYPOINT ["python", "/classifyingservice/classifying_server.py"]
