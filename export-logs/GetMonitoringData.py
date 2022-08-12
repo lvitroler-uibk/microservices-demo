@@ -1,19 +1,12 @@
 import datetime
 import os
 import re
-import sys
-from datetime import date
 
 import requests
 from requests.structures import CaseInsensitiveDict
 import json
-import csv
 
-#URL_SHORT = "https://console.apps.play.gepaplexx.com/api/prometheus" #TODO funktioniert mit der nicht
-
-URL_SHORT = "https://prometheus-k8s-openshift-monitoring.apps.play.gepaplexx.com"  # ?service=ts-auth-service&prettyPrint=true" #traces für einen Service
-#URL = "https://prometheus-k8s-openshift-monitoring.apps.play.gepaplexx.com/api/v1/query?query=up[1m]"
-AUTHORIZATION = "Bearer sha256~BhFivk7wCVvTgXPbw_6v9CwrWz9_YpDfvQr9EHSF-IY"
+URL_SHORT = "http://localhost:9090"
 
 '''
     collect monitoring data from specific metric
@@ -21,8 +14,6 @@ AUTHORIZATION = "Bearer sha256~BhFivk7wCVvTgXPbw_6v9CwrWz9_YpDfvQr9EHSF-IY"
 def callAPI(metrixName):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
-    headers[
-        "Authorization"] = AUTHORIZATION  # Token deines Openshift Users verwenden (In Openshift rechts oben auf deinen Usernamen klicken -> Copy login command -> Display Token -> dann den Token nach --token= kopieren und einfügen)
 
     response = requests.get('{0}/api/v1/query'.format(URL_SHORT), headers=headers, params={'query': metrixName+'[1h]'})
     return response.json()
@@ -33,8 +24,6 @@ def callAPI(metrixName):
 def GetMetrixNames():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
-    headers[
-        "Authorization"] = AUTHORIZATION
     response = requests.get('{0}/api/v1/label/__name__/values'.format(URL_SHORT), headers=headers)
     names = response.json()['data']    #Return metrix names
     return names
@@ -55,13 +44,6 @@ def write_to_json(jsonFile, filename, metric):
     with open(path + "/" + filename + "_" + metric + ".json", 'w') as file:
         json.dump(jsonFile, file)
         print("MONITORING are saved in File: ", filename + "_" + metric + ".json")
-
-#def write_to_json(jsonFile, filename):
-#    with open("RESULTS/" + filename, 'w') as file:
-#        for listelements in jsonFile:
-#            json.dump(listelements, file)
-#        print("Monitoring Data saved in File: ", filename)
-
 
 '''
     identify all potential metric names and loop through them to collect all monitoring data
