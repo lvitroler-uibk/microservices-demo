@@ -1,5 +1,5 @@
-from GetLogs import mainLogs
-from GetTraces import mainTraces
+#from GetLogs import mainLogs
+#from GetTraces import mainTraces
 from GetMonitoringData import mainMonitoringData
 
 Authentication = "sha256~BhFivk7wCVvTgXPbw_6v9CwrWz9_YpDfvQr9EHSF-IY"
