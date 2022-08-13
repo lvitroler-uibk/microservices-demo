@@ -1,6 +1,5 @@
 import datetime
 import os
-from datetime import date
 
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -18,11 +17,9 @@ URL = "http://localhost:16686/api/traces?service="  # ?service=ts-auth-service&p
 def callAPI(services):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
-    # headers["Authorization"] = "Bearer sha256~6sFu4cLRR5RiwXugAbGRSIu810biPA2nLuWc6kvIV1o" #Token deines Openshift Users verwenden (In Openshift rechts oben auf deinen Usernamen klicken -> Copy login command -> Display Token -> dann den Token nach --token= kopieren und einfügen)
-    URL_new = URL + services
+    URL_new = URL + services + '.default'
     response = requests.get(url=URL_new)
     return response.json()
-
 
 def write_to_json(jsonFile, filename, services):
     parent_dir = os.getcwd()
