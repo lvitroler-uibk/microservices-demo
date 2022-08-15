@@ -36,5 +36,5 @@ COPY . .
 ENV PORT "9090"
 EXPOSE 9090
 
-ENTRYPOINT ["/script.sh"]
-#ENTRYPOINT ["python", "/classifyingservice/classifying_server.py"]
+#ENTRYPOINT ["/classifyingservice/script.sh"]
+ENTRYPOINT ["python", "/classifyingservice/classifying_server.py"]
