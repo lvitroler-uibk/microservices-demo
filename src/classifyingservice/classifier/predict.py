@@ -1,8 +1,8 @@
-import time
 from PIL import Image
 from torchvision import models, transforms
 from io import BytesIO
 
+import time
 import torch
 import torch.nn as nn
 import requests
