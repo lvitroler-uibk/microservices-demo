@@ -9,7 +9,7 @@ if __name__ == "__main__":
     called_version = "nofaults"
     #TODO alle Version Updates in einem Ordner zusammensammeln
 
-    #mainLogs("LOGS_" + called_version + ".txt")
-    #mainTraces(called_version)
+    mainLogs(called_version)
+    mainTraces(called_version)
     mainMonitoringData(called_version + ".json")
     print("Data Collection is finished!")
