@@ -9,7 +9,7 @@ import json
 allServices = ["emailservice", "checkoutservice", "recommendationservice", "classifyingservice", "frontend",
                 "paymentservice", "productcatalogservice", "cartservice", "shippingservice", "adservice",
                 "frontend-external", "currencyservice"]
-URL = "http://localhost:16686/api/traces?service="  # ?service=ts-auth-service&prettyPrint=true" #traces für einen Service
+URL = "http://localhost:16686/jaeger/api/traces?service="  # ?service=ts-auth-service&prettyPrint=true" #traces für einen Service
 
 '''
     call to Jaeger to retrieve tracing data for one specific (micro-)service

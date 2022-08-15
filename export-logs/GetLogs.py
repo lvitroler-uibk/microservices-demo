@@ -47,7 +47,7 @@ def write_to_json(jsonFile, filename, services):
 
     with open(path + "/" + filename + "_" + services + ".json", 'w') as file:
         json.dump(jsonFile, file)
-        print("TRACES are saved in File: ", filename + "_" + services + ".json")
+        print("LOGS are saved in File: ", filename + "_" + services + ".json")
 
 
 def mainLogs(filename):
