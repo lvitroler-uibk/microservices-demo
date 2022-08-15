@@ -9,7 +9,7 @@ import json
 
 allServices = ["emailservice", "checkoutservice", "recommendationservice", "classifyingservice", "frontend",
                 "paymentservice", "productcatalogservice", "cartservice", "shippingservice", "adservice",
-                "frontend-external", "currencyservice"]
+                "currencyservice"]
 
 BASIC_URL = "http://localhost:20001/kiali/api/namespaces/default/"
 WORKLOAD_URL = BASIC_URL + 'workloads/'
