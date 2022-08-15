@@ -28,7 +28,7 @@ def callAPI(service):
         if response is None:
             raise ValueError("response is missing")
         else:
-            return response.json
+            return response.json()
     except Exception as e:
         logging.error('Error while getting the data from url', exc_info=e)
         sys.exit()
