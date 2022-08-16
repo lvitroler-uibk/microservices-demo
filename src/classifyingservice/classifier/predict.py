@@ -1,3 +1,4 @@
+import time
 from PIL import Image
 from torchvision import models, transforms
 from io import BytesIO
@@ -78,6 +79,7 @@ class Classifier():
         validator = data_transforms['val']
         img_t = validator(img).unsqueeze(0)
         img_t = img_t.to(device)
+        time.sleep(2)
         outputs = model(img_t)
         _, preds = torch.max(outputs, 1)
 
